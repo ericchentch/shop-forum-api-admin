@@ -37,4 +37,20 @@ export class BaseRepositorySql<T> {
     }
     return null;
   }
+
+  async insertOrUpdate(listInsert: T[]): Promise<void> {
+    try {
+      await this.typeOrmRepository.save(listInsert);
+    } catch (err: any) {
+      this.logger.error(err);
+    }
+  }
+
+  async delete(listDelete: T[]): Promise<void> {
+    try {
+      await this.typeOrmRepository.remove(listDelete);
+    } catch (err: any) {
+      this.logger.error(err);
+    }
+  }
 }

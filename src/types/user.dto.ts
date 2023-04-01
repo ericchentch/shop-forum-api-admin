@@ -16,10 +16,27 @@ export class UserResponse {
   }
 }
 
-export interface UserRequest {
-  userId: string;
+import { IsString, Length, Matches } from 'class-validator';
+import {
+  EMAIL_REGEX,
+  PHONE_REGEX,
+  USERNAME_REGEX,
+} from 'src/constants/regex.value';
+export class UserRequest {
+  @IsString({
+    message: 'name must be string',
+  })
+  @Length(10, undefined, {
+    message: 'name must be at least 10 characters',
+  })
   name: string;
+
+  @Matches(USERNAME_REGEX, { message: 'invalid username' })
   username: string;
+
+  @Matches(PHONE_REGEX, { message: 'invalid phone number' })
   phone: string;
+
+  @Matches(EMAIL_REGEX, { message: 'invalid email' })
   email: string;
 }

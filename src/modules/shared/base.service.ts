@@ -1,11 +1,43 @@
+import { Logger } from '@nestjs/common';
+import { ClassConstructor, plainToClass } from 'class-transformer';
+import { validate } from 'class-validator';
 import { Request } from 'express';
 import { defaultCommonResponse } from 'src/constants/default.value';
+import { HttpExceptionFilter, InvalidRequest } from 'src/exception';
 import { formatDate, isNumber, isValidDate } from 'src/libs';
 import { CommonResponse } from 'src/types/common.type';
 import { FindManyOptions } from 'typeorm';
 
 export class BaseService<T> {
   protected repository: T;
+  protected idField = '';
+
+  private readonly logger = new Logger(HttpExceptionFilter.name);
+
+  /*
+  author: @ericchentch
+  validate req
+*/
+  protected async validateRequest<E extends ClassConstructor<any>>(
+    dto: E,
+    input: object,
+  ) {
+    const instance = plainToClass(dto, input);
+    const errors = await validate(instance, {
+      validationError: { target: false },
+    });
+    if (errors && errors.length > 0) {
+      this.logger.verbose(errors);
+      let error = {};
+      errors.forEach((err) => {
+        error = {
+          ...error,
+          [err.property]: err.constraints[Object.keys(err.constraints)[0]],
+        };
+      });
+      throw new InvalidRequest('invalid request', error);
+    }
+  }
 
   /*
 
@@ -40,7 +72,6 @@ export class BaseService<T> {
   protected convertParamsToObjectCondition = <T>(
     req: Request,
     entity: T,
-    idField: string,
   ): FindManyOptions<T> => {
     const query = req.query;
     const queryKeys = Object.keys(query);
@@ -73,7 +104,7 @@ export class BaseService<T> {
     ) {
       order = { [String(query.orderField)]: query.orderKey };
     } else {
-      order = { [idField]: 'DESC' };
+      order = { [this.idField]: 'DESC' };
     }
     return { where, skip, take, order };
   };

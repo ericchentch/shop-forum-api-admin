@@ -4,11 +4,7 @@ const databaseProviders = [
   {
     provide: 'DATA_SOURCE',
     useFactory: async () => {
-      const configGlobal = new ConfigService();
-      const DB_HOST = configGlobal.get<string>('DB_HOST');
-      const DB_USERNAME = configGlobal.get<string>('DB_USERNAME');
-      const DB_PASSWORD = configGlobal.get<string>('DB_PASSWORD');
-      const DB_DATABASE_NAME = configGlobal.get<string>('DB_DATABASE_NAME');
+      const { DB_DATABASE_NAME, DB_HOST, DB_USERNAME, DB_PASSWORD } = env();
       const dataSource = new DataSource({
         type: 'mysql',
         host: DB_HOST,
@@ -27,7 +23,7 @@ const databaseProviders = [
 ];
 
 import { Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { env } from 'src/constants/environment';
 
 @Module({
   providers: [...databaseProviders],

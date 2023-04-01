@@ -30,10 +30,10 @@ import {
 import {
   DEACTIVATE_USER,
   USER_ACTIVE,
+  USER_DETAIL,
   USER_GET_LIST,
   USER_INSERT,
   USER_ROOT,
-  USER_UPDATE,
 } from './user.endpoint';
 
 export const EndpointTree = {
@@ -41,7 +41,7 @@ export const EndpointTree = {
     USER_ROOT,
     USER_GET_LIST,
     USER_INSERT,
-    USER_UPDATE,
+    USER_DETAIL,
     USER_ACTIVE,
     DEACTIVATE_USER,
   },

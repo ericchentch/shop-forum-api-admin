@@ -1,11 +1,13 @@
-import { Controller, Get, Inject, UseFilters } from '@nestjs/common';
+import { Controller, Get, Inject, Post, Put, UseFilters } from '@nestjs/common';
 import { Request } from 'express';
+import { AuthBody } from 'src/decorator/custom.body';
+import { AuthParamOne } from 'src/decorator/custom.param.one';
 import { AuthRequest } from 'src/decorator/custom.request';
 import { EndpointTree } from 'src/endpoints';
 import { HttpExceptionFilter } from 'src/exception';
 import { BaseController } from 'src/modules/shared/base.controller';
 import { CommonListResponse, CommonResponse } from 'src/types/common.type';
-import { UserResponse } from 'src/types/user.dto';
+import { UserRequest, UserResponse } from 'src/types/user.dto';
 import { UserService } from '../service/user.service';
 
 @UseFilters(new HttpExceptionFilter())
@@ -26,32 +28,31 @@ export class UserController extends BaseController<UserService> {
     return await this.service.getListUsers(req);
   }
 
-  // @Post(EndpointTree.USER.USER_INSERT)
-  // async insertNewUser(
-  //   @AuthBody() req: UserRequest,
-  // ): Promise<CommonResponse<null>> {
-  //   return await this.service.insertAndUpdateUser(req);
-  // }
+  @Get(EndpointTree.USER.USER_DETAIL)
+  async getDetailUser(
+    @AuthParamOne('id') id: string,
+  ): Promise<CommonResponse<UserResponse>> {
+    return await this.service.getUserDetail(id);
+  }
 
-  // @Put(EndpointTree.USER.USER_UPDATE)
-  // async updateUser(
-  //   @AuthBody() req: UserRequest,
-  //   @AuthParamOne('id') id: string,
-  // ): Promise<CommonResponse<null>> {
-  //   return await this.service.insertAndUpdateUser(req, id);
-  // }
+  @Post(EndpointTree.USER.USER_INSERT)
+  async insertNewUser(
+    @AuthBody() req: UserRequest,
+  ): Promise<CommonResponse<null>> {
+    return await this.service.createUser(req);
+  }
 
-  // @Put(EndpointTree.USER.USER_ACTIVE)
-  // async activeUser(
-  //   @AuthParamOne('id') id: string,
-  // ): Promise<CommonResponse<null>> {
-  //   return await this.service.changeActive(id, true);
-  // }
+  @Put(EndpointTree.USER.USER_ACTIVE)
+  async activeUser(
+    @AuthParamOne('id') id: string,
+  ): Promise<CommonResponse<null>> {
+    return await this.service.changeActiveUser(id, true);
+  }
 
-  // @Put(EndpointTree.USER.DEACTIVATE_USER)
-  // async deactivateUser(
-  //   @AuthParamOne('id') id: string,
-  // ): Promise<CommonResponse<null>> {
-  //   return await this.service.changeActive(id, false);
-  // }
+  @Put(EndpointTree.USER.DEACTIVATE_USER)
+  async deactivateUser(
+    @AuthParamOne('id') id: string,
+  ): Promise<CommonResponse<null>> {
+    return await this.service.changeActiveUser(id, false);
+  }
 }
