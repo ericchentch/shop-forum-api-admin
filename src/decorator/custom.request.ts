@@ -1,6 +1,6 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { PREFIX_TOKEN } from 'src/constants/default.value';
-import { UnauthorizeException } from '../exception/unauthorize.exception';
+import { UnauthorizeException } from 'src/exception/unauthorize.exception';
 
 export const AuthRequest = createParamDecorator(
   async (data: unknown, ctx: ExecutionContext) => {
