@@ -1,21 +1,24 @@
-import { config } from 'src/common/mysql.common';
 import { DataSource } from 'typeorm';
 
 const databaseProviders = [
   {
     provide: 'DATA_SOURCE',
     useFactory: async () => {
-      const dbConfig = config();
+      const configGlobal = new ConfigService();
+      const DB_HOST = configGlobal.get<string>('DB_HOST');
+      const DB_USERNAME = configGlobal.get<string>('DB_USERNAME');
+      const DB_PASSWORD = configGlobal.get<string>('DB_PASSWORD');
+      const DB_DATABASE_NAME = configGlobal.get<string>('DB_DATABASE_NAME');
       const dataSource = new DataSource({
         type: 'mysql',
-        host: dbConfig.host,
+        host: DB_HOST,
         port: 3306,
-        username: dbConfig.user,
-        password: dbConfig.password,
-        database: dbConfig.database,
+        username: DB_USERNAME,
+        password: DB_PASSWORD,
+        database: DB_DATABASE_NAME,
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         synchronize: true,
-        ssl: dbConfig.ssl,
+        ssl: {},
       });
 
       return dataSource.initialize();
@@ -24,6 +27,7 @@ const databaseProviders = [
 ];
 
 import { Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   providers: [...databaseProviders],
