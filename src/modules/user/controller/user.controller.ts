@@ -1,6 +1,6 @@
 import { Controller, Get, Inject, UseFilters } from '@nestjs/common';
 import { Request } from 'express';
-import { AuthRequest } from 'src/decorator';
+import { AuthRequest } from 'src/decorator/custom.request';
 import { EndpointTree } from 'src/endpoints';
 import { HttpExceptionFilter } from 'src/exception';
 import { BaseController } from 'src/modules/shared/base.controller';
