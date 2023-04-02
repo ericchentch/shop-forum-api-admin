@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { BaseRepositorySql } from 'src/modules/shared/base.mysql.repository';
+import { BaseRepositorySql } from 'src/modules/shared/base.repository';
 import { DataSource, Repository } from 'typeorm';
 import { User } from './user.entity';
 
