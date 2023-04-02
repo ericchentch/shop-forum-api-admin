@@ -106,4 +106,17 @@ export class UserService extends BaseService<UserRepository> {
       message: isActive ? 'enable success' : 'disable success',
     });
   }
+
+  async deleteUserId(id: string): Promise<CommonResponse<null>> {
+    const findUser = await this.repository.findOne({
+      where: {
+        [this.idField]: id,
+      },
+    });
+    if (!findUser) throw new NotfoundException('not found');
+    await this.repository.delete([findUser]);
+    return this.renderSuccessResponse<null>({
+      message: 'delete success',
+    });
+  }
 }

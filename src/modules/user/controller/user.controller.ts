@@ -1,4 +1,12 @@
-import { Controller, Get, Inject, Post, Put, UseFilters } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Get,
+  Inject,
+  Post,
+  Put,
+  UseFilters,
+} from '@nestjs/common';
 import { Request } from 'express';
 import { AuthBody } from 'src/decorator/custom.body';
 import { AuthParamOne } from 'src/decorator/custom.param.one';
@@ -54,5 +62,12 @@ export class UserController extends BaseController<UserService> {
     @AuthParamOne('id') id: string,
   ): Promise<CommonResponse<null>> {
     return await this.service.changeActiveUser(id, false);
+  }
+
+  @Delete(EndpointTree.USER.DELETE_USER)
+  async deleteUser(
+    @AuthParamOne('id') id: string,
+  ): Promise<CommonResponse<null>> {
+    return await this.service.deleteUserId(id);
   }
 }

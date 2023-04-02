@@ -1,33 +1,35 @@
 import { Logger } from '@nestjs/common';
+import { randomUUID } from 'crypto';
 import { HttpExceptionFilter } from 'src/exception';
-import { FindManyOptions, Repository } from 'typeorm';
+import { convertToDateTimeSql } from 'src/libs';
+import { FindManyOptions, ObjectType, Repository } from 'typeorm';
 
 export class BaseRepositorySql<T> {
   protected typeOrmRepository: Repository<T>;
+  protected fieldId = '';
+  protected modified = '';
+  protected entity: ObjectType<T>;
 
   private readonly logger = new Logger(HttpExceptionFilter.name);
 
   async findAll(
     params: FindManyOptions<T>,
   ): Promise<{ total: number; list: T[] }> {
-    try {
-      this.logger.debug(params);
-      const [list, count] = await this.typeOrmRepository.findAndCount({
-        ...params,
-        cache: true,
-      });
-      this.logger.verbose(list);
-      return {
-        total: count,
-        list,
-      };
-    } catch (err: any) {
-      this.logger.error(err);
-      return {
-        total: 0,
-        list: [],
-      };
-    }
+    let list: T[] = [];
+    let total = 0;
+    await this.typeOrmRepository.manager.transaction(async (manager) => {
+      const [listEntity, count] = await manager.findAndCount(
+        this.entity,
+        params,
+      );
+      this.logger.verbose(listEntity);
+      list = listEntity;
+      total = count;
+    });
+    return {
+      list,
+      total,
+    };
   }
 
   async findOne(params: FindManyOptions<T>): Promise<T | null> {
@@ -39,18 +41,36 @@ export class BaseRepositorySql<T> {
   }
 
   async insertOrUpdate(listInsert: T[]): Promise<void> {
-    try {
-      await this.typeOrmRepository.save(listInsert);
-    } catch (err: any) {
-      this.logger.error(err);
-    }
+    await this.typeOrmRepository.manager.transaction(async (manager) => {
+      const listInstance = await Promise.all(
+        listInsert.map(async (item) => {
+          if (!item[this.fieldId]) {
+            return this.typeOrmRepository.create({
+              ...item,
+              [this.fieldId]: randomUUID(),
+            });
+          } else {
+            return this.typeOrmRepository.create({
+              ...item,
+              [this.modified]: convertToDateTimeSql(new Date()),
+            });
+          }
+        }),
+      );
+      await manager.save<T>(listInstance);
+    });
   }
 
   async delete(listDelete: T[]): Promise<void> {
-    try {
-      await this.typeOrmRepository.remove(listDelete);
-    } catch (err: any) {
-      this.logger.error(err);
-    }
+    await this.typeOrmRepository.manager.transaction(async (manager) => {
+      const listInstance = await Promise.all(
+        listDelete.map(async (item) => {
+          return this.typeOrmRepository.create(item);
+        }),
+      );
+      listInstance.forEach(async (item) => {
+        manager.remove(item);
+      });
+    });
   }
 }

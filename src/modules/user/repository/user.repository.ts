@@ -21,5 +21,8 @@ export class UserRepository extends BaseRepositorySql<User> {
   ) {
     super();
     this.typeOrmRepository = this.userRepository;
+    this.fieldId = ID_FIELD_USER;
+    this.entity = User;
+    this.modified = 'modified';
   }
 }

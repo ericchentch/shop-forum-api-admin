@@ -29,6 +29,7 @@ import {
 } from './permission.endpoint';
 import {
   DEACTIVATE_USER,
+  DELETE_USER,
   USER_ACTIVE,
   USER_DETAIL,
   USER_GET_LIST,
@@ -44,6 +45,7 @@ export const EndpointTree = {
     USER_DETAIL,
     USER_ACTIVE,
     DEACTIVATE_USER,
+    DELETE_USER,
   },
   AUTH: {
     AUTH_ROOT,

@@ -1,9 +1,9 @@
 import { convertToDateTimeSql } from 'src/libs';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn({ type: 'varchar', length: 150 })
   userId: string;
 
   @Column({ type: 'varchar', length: 100 })
