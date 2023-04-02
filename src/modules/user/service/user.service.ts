@@ -4,8 +4,11 @@ import { env } from 'src/constants/environment';
 import { InvalidRequest, NotfoundException } from 'src/exception';
 import { hashPassword } from 'src/libs';
 import { BaseService } from 'src/modules/shared/base.service';
-import { CommonListResponse, CommonResponse } from 'src/types/common.type';
-import { UserRequest, UserResponse } from 'src/types/user.dto';
+import {
+  CommonListResponse,
+  CommonResponse,
+} from 'src/modules/shared/common.type';
+import { UserRequest, UserResponse } from 'src/modules/user/service/user.dto';
 import { User } from '../repository/user.entity';
 import { ID_FIELD_USER, UserRepository } from '../repository/user.repository';
 

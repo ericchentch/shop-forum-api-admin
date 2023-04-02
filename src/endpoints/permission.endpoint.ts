@@ -6,3 +6,4 @@ export const ACTIVE_PERMISSION = 'active-permission';
 export const DEACTIVATE_PERMISSION = 'deactivate-permission';
 export const UPDATE_FEATURE_USER_PERMISSION = 'update-user-feature';
 export const PERMISSION_DETAIL = 'detail';
+export const DELETE_PERMISSION = 'delete';

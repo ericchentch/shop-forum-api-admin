@@ -1,24 +1,12 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
-export class User {
+export class Permission {
   @PrimaryColumn({ type: 'varchar', length: 150 })
-  userId: string;
+  permissionId: string;
 
   @Column({ type: 'varchar', length: 100 })
-  name: string;
-
-  @Column({ unique: true, length: 21, type: 'varchar' })
-  username: string;
-
-  @Column({ length: 150, type: 'varchar' })
-  password: string;
-
-  @Column({ unique: true, length: 20, type: 'varchar' })
-  phone: string;
-
-  @Column({ unique: true, length: 100, type: 'varchar' })
-  email: string;
+  permissionName: string;
 
   @Column('datetime', { default: () => 'CURRENT_TIMESTAMP' })
   created: Date;
@@ -32,12 +20,8 @@ export class User {
   constructor() {
     this.active = 1;
     this.created = new Date();
-    this.email = '';
     this.modified = new Date();
-    this.name = '';
-    this.password = '';
-    this.phone = '';
-    this.userId = '';
-    this.username = '';
+    this.permissionId = '';
+    this.permissionName = '';
   }
 }

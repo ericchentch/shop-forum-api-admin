@@ -6,7 +6,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { CommonResponse } from 'src/types/common.type';
+import { CommonResponse } from 'src/modules/shared/common.type';
 
 interface InvalidRequestExtends {
   error?: object;

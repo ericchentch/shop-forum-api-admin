@@ -17,6 +17,7 @@ export class BaseRepositorySql<T> {
   ): Promise<{ total: number; list: T[] }> {
     let list: T[] = [];
     let total = 0;
+    this.logger.debug(params);
     await this.typeOrmRepository.manager.transaction(async (manager) => {
       const [listEntity, count] = await manager.findAndCount(
         this.entity,

@@ -13,7 +13,7 @@ const databaseProviders = [
         password: DB_PASSWORD,
         database: DB_DATABASE_NAME,
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-        synchronize: true,
+        synchronize: false,
         ssl: {},
       });
 

@@ -5,7 +5,7 @@ import { Request } from 'express';
 import { defaultCommonResponse } from 'src/constants/default.value';
 import { HttpExceptionFilter, InvalidRequest } from 'src/exception';
 import { formatDate, isNumber, isValidDate } from 'src/libs';
-import { CommonResponse } from 'src/types/common.type';
+import { CommonResponse } from 'src/modules/shared/common.type';
 import { FindManyOptions } from 'typeorm';
 
 export class BaseService<T> {

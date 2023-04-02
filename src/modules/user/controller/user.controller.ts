@@ -14,8 +14,11 @@ import { AuthRequest } from 'src/decorator/custom.request';
 import { EndpointTree } from 'src/endpoints';
 import { HttpExceptionFilter } from 'src/exception';
 import { BaseController } from 'src/modules/shared/base.controller';
-import { CommonListResponse, CommonResponse } from 'src/types/common.type';
-import { UserRequest, UserResponse } from 'src/types/user.dto';
+import {
+  CommonListResponse,
+  CommonResponse,
+} from 'src/modules/shared/common.type';
+import { UserRequest, UserResponse } from 'src/modules/user/service/user.dto';
 import { UserService } from '../service/user.service';
 
 @UseFilters(new HttpExceptionFilter())

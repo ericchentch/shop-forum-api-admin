@@ -11,8 +11,12 @@ export class UserResponse {
   constructor() {
     this.userId = '';
     this.name = '';
-    (this.username = ''), (this.phone = ''), (this.email = '');
-    (this.created = ''), (this.modified = ''), (this.active = true);
+    this.username = '';
+    this.phone = '';
+    this.email = '';
+    this.created = '';
+    this.modified = '';
+    this.active = true;
   }
 }
 
