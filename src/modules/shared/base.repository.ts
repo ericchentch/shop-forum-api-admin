@@ -51,6 +51,9 @@ export class BaseRepositorySql<T> {
               [this.fieldId]: randomUUID(),
             });
           } else {
+            if (!this.modified) {
+              return this.typeOrmRepository.create(item);
+            }
             return this.typeOrmRepository.create({
               ...item,
               [this.modified]: convertToDateTimeSql(new Date()),

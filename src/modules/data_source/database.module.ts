@@ -4,7 +4,8 @@ const databaseProviders = [
   {
     provide: 'DATA_SOURCE',
     useFactory: async () => {
-      const { DB_DATABASE_NAME, DB_HOST, DB_USERNAME, DB_PASSWORD } = env();
+      const { DB_DATABASE_NAME, DB_HOST, DB_USERNAME, DB_PASSWORD, ENV } =
+        env();
       const dataSource = new DataSource({
         type: 'mysql',
         host: DB_HOST,
@@ -13,8 +14,9 @@ const databaseProviders = [
         password: DB_PASSWORD,
         database: DB_DATABASE_NAME,
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-        synchronize: false,
+        synchronize: ENV === 'DEVELOPMENT',
         ssl: {},
+        dropSchema: true,
       });
 
       return dataSource.initialize();

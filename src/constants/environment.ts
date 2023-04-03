@@ -10,6 +10,7 @@ export const env = () => {
   const NEXT_PUBLIC_SECRET_JWT_KEY = configGlobal.get<string>(
     'NEXT_PUBLIC_SECRET_JWT_KEY',
   );
+  const ENV = configGlobal.get<string>('ENV');
 
   return {
     DB_DATABASE_NAME,
@@ -18,5 +19,6 @@ export const env = () => {
     DB_PASSWORD,
     DEFAULT_PASSWORD,
     NEXT_PUBLIC_SECRET_JWT_KEY,
+    ENV,
   };
 };
