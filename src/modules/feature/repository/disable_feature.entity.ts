@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'disable_feature' })
 export class DisableFeature {
   @PrimaryColumn({ type: 'varchar', length: 150 })
   id: string;

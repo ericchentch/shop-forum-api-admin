@@ -16,7 +16,7 @@ const databaseProviders = [
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         synchronize: ENV === 'DEVELOPMENT',
         ssl: {},
-        dropSchema: true,
+        // dropSchema: true,
       });
 
       return dataSource.initialize();

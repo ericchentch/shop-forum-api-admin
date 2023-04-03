@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'permission' })
 export class Permission {
   @PrimaryColumn({ type: 'varchar', length: 150 })
   permissionId: string;
